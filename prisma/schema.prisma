@@ -1,0 +1,46 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Educando {
+  id         String        @id @default(auto()) @map("_id") @db.ObjectId
+  nome       String
+  turno      String
+  horario    String
+  ativo      Boolean       @default(true)
+  instruments Instrumento[] // Relacionamento com Instrumentos
+}
+
+model Instrumento {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  tipo        String
+  tamanho     String?
+  numero      Int
+  condicao    String
+  observacao  String?
+  borrowed_by String?    @db.ObjectId // Relacionamento com Educando (opcional)
+  ativo       Boolean    @default(true)
+  educando    Educando?  @relation(fields: [borrowed_by], references: [id])
+}
+
+model HistoricoEmprestimos {
+  id              String     @id @default(auto()) @map("_id") @db.ObjectId
+  educandoId      String     @db.ObjectId
+  instrumentoId   String     @db.ObjectId
+  dataEmprestimo  DateTime   @default(now())
+  dataDevolucao   DateTime?
+  status          String     // ativo ou concluído
+}
+
+model Usuario {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  nome     String
+  email    String @unique
+  senha    String
+  role     String
+}
