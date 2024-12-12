@@ -9,7 +9,8 @@ const app: Application = express();
 // Configurar CORS
 app.use(
   cors({
-    origin: "http://localhost:5173", // Alterar para a URL do seu frontend em produção
+    // origin: "http://localhost:5173", // Alterar para a URL do seu frontend em produção
+    origin: "*", // Alterar para a URL do seu frontend em produção
     methods: ["GET", "POST", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
