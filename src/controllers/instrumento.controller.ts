@@ -11,6 +11,8 @@ export const getAllInstrumentos = async (
     const instrumentos = await prisma.instrumento.findMany({
       where: { ativo: true },
     });
+    console.log(instrumentos);
+
     return res.status(200).json(instrumentos);
   } catch (error) {
     return res.status(500).json({ error: "Erro ao listar instrumentos." });
